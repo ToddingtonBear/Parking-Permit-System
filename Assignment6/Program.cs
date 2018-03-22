@@ -5,7 +5,7 @@ namespace ConsoleApplication_Database
 {
     class Program
     {
-        static OleDbConnection con; //static connection object 
+        static OleDbConnection con; //static connection object
         static OleDbCommand cmd;    //static command object 
         static OleDbDataReader reader;  //static reader object 
         static String ConStr = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\Christopher\Documents\College\NET\Project\ParkingPermits.accdb; Persist Security Info=False;";
