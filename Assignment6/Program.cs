@@ -21,7 +21,7 @@ namespace ConsoleApplication_Database
             reader = cmd.ExecuteReader();   //retrieve value from database 
             while (reader.Read())   //while reader is reading 
             {   //display contents of the reader (values in database 
-                Console.WriteLine(reader[0] + "/" + reader[1] + "/" + reader[2] + "/" + reader[3] + "/" + reader[4]);
+                Console.WriteLine(reader[0] + "/" + reader[1] + "/" + reader[2] + "/" + reader[3] + "/" + reader[4] + "/" + reader[5] + "/" + reader[6] + "/" + reader[7] + "/" + reader[8]);
             }
             con.Close();    //close connection 
         }
@@ -49,7 +49,7 @@ namespace ConsoleApplication_Database
             con = new OleDbConnection(ConStr);  //new connection object 
             cmd = new OleDbCommand();   //new command object 
             cmd.Connection = con;   //assign connection to command, define command (assigning taken values to new row in table
-            cmd.CommandText = "INSERT INTO Permits (Student_ID,Vehicle_Model,Registration,Owner,Apartment) VALUES ('" + ID + "','" + model + "','" + reg + "','" + owner + "','" + apnum + "' )";
+            cmd.CommandText = "INSERT INTO Permits (Student_ID,Vehicle_Model_1,Registration_1,Vehicle_Model_2,Registration_2,Vehicle_Model_3,Registration_3,Owner,Apartment) VALUES ('" + ID + "','" + model1 + "','" + reg1 + "','" + model2 + "','" + reg2 + "','" + model3 + "','" + reg3 + "','" + owner + "','" + apnum + "' )";
             con.Open(); // open connection 
             int num = cmd.ExecuteNonQuery();    // perform insertions and return number of rows affected
             con.Close();    //close connection 
