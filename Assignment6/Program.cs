@@ -119,6 +119,21 @@ namespace ConsoleApplication_Database
             }
         }
 
+        public static void UniqueVehicles()
+        {
+            con = new OleDbConnection(ConStr);  //new connection object with connection string 
+            cmd = new OleDbCommand();   //new command object 
+            cmd.Connection = con;   //assigns connection to command 
+            cmd.CommandText = "SELECT Vehicle_Model_1, Vehicle_Model_2, Vehicle_Model_3 FROM Permits";  //defines what command does
+            con.Open(); //open connection 
+            reader = cmd.ExecuteReader();   //retrieve value from database 
+            while (reader.Read())   //while reader is reading 
+            {   //display contents of the reader (values in database 
+                Console.WriteLine(reader[0] + "/" + reader[1] + "/" + reader[2]);
+            }
+            con.Close();    //close connection 
+        }
+
 
 
         static void Main(string[] args)
@@ -131,6 +146,7 @@ namespace ConsoleApplication_Database
                 Console.WriteLine("2.Insert");
                 Console.WriteLine("3.Update");
                 Console.WriteLine("4.Delete");
+                Console.WriteLine("5.Test");
                 Console.WriteLine("------------------------------");
                 Console.Write("Select : ");
                 string choice = Console.ReadLine(); //read input and check against each case
@@ -160,6 +176,11 @@ namespace ConsoleApplication_Database
                     Console.WriteLine("----------------------------------");
                     GetPermit();
                     Console.WriteLine("------------------------------");
+                }
+                else if (choice == "5")
+                {
+                    UniqueVehicles();
+
                 }
                 Console.Write("Continue? (y/n) : ");
                 string check = Console.ReadLine();
