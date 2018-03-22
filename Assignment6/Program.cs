@@ -30,10 +30,18 @@ namespace ConsoleApplication_Database
         {
             Console.Write("Student ID : "); //write this text to console 
             int ID = Convert.ToInt32(Console.ReadLine());   //take console input and convert to int variable ID 
-            Console.Write("Vehicle Model : ");  //write text to console
-            string model = Console.ReadLine();  //take console input and assign to model variable 
-            Console.Write("Registration : ");   //etc
-            string reg = Console.ReadLine();    //etc
+            Console.Write("Vehicle Model 1: ");  //write text to console
+            string model1 = Console.ReadLine();  //take console input and assign to model variable 
+            Console.Write("Registration1 : ");   //etc
+            string reg1 = Console.ReadLine();    //etc
+            Console.Write("Vehicle Model2 : ");  //write text to console
+            string model2 = Console.ReadLine();  //take console input and assign to model variable 
+            Console.Write("Registration 2: ");   //etc
+            string reg2 = Console.ReadLine();    //etc
+            Console.Write("Vehicle Model 3: ");  //write text to console
+            string model3 = Console.ReadLine();  //take console input and assign to model variable 
+            Console.Write("Registration 3: ");   //etc
+            string reg3 = Console.ReadLine();    //etc
             Console.Write("Owner : ");
             string owner = Console.ReadLine();
             Console.Write("Apartment : ");
