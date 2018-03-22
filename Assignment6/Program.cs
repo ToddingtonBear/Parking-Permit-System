@@ -59,7 +59,7 @@ namespace ConsoleApplication_Database
             }
             else    //nothing happened, say so 
             {
-                Console.WriteLine("Three are errors. The record was not inserted.");
+                Console.WriteLine("There are errors. The record was not inserted.");
             }
         }
 
@@ -67,16 +67,24 @@ namespace ConsoleApplication_Database
         {
             Console.Write("Student ID : "); //write to console etc 
             int ID = Convert.ToInt32(Console.ReadLine());
-            Console.Write("Vehicle Model : ");
-            string model = Console.ReadLine();
-            Console.Write("Registration : ");
-            string reg = Console.ReadLine();
+            Console.Write("Vehicle Model 1: ");
+            string model1 = Console.ReadLine();
+            Console.Write("Registration 1: ");
+            string reg1 = Console.ReadLine();
+            Console.Write("Vehicle Model 2: ");
+            string model2 = Console.ReadLine();
+            Console.Write("Registration 2: ");
+            string reg2 = Console.ReadLine();
+            Console.Write("Vehicle Model 3: ");
+            string model3 = Console.ReadLine();
+            Console.Write("Registration 3: ");
+            string reg3 = Console.ReadLine();
             Console.Write("Apartment : ");
             int apnum = Convert.ToInt32(Console.ReadLine());
             con = new OleDbConnection(ConStr);  //create stuff same as before
             cmd = new OleDbCommand();
             cmd.Connection = con;   //define command, where ID in table = input, change values to input values
-            cmd.CommandText = "UPDATE Permits SET Vehicle_Model='" + model + "',Registration='" + reg + "',Apartment='" + apnum + "' WHERE Student_ID=" + ID;
+            cmd.CommandText = "UPDATE Permits SET Vehicle_Model_1='" + model1 + "',Registration_1='" + reg1 + "',Vehicle_Model_2='" + model2 + "',Registration_2='" + reg2 + "',Vehicle_Model_3='" + model3 + "',Registration_3='" + reg3 + "',Apartment='" + apnum + "' WHERE Student_ID=" + ID;
             con.Open(); //open connection 
             int num = cmd.ExecuteNonQuery();  //execute query and return number of rows affected
             con.Close();    //close connection 
