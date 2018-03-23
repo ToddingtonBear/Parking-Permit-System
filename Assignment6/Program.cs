@@ -71,6 +71,8 @@ namespace ConsoleApplication_Database
             int ID = Convert.ToInt32(Console.ReadLine());
             Console.Write("Apartment : ");
             int apnum = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Expiration : (dd/mm/yyyy)"); //expiration date
+            DateTime expire = DateTime.Parse(Console.ReadLine());
             Console.Write("Vehicle Model 1: ");
             string model1 = Console.ReadLine();
             Console.Write("Registration 1: ");
@@ -86,7 +88,7 @@ namespace ConsoleApplication_Database
             con = new OleDbConnection(ConStr);  //create stuff same as before
             cmd = new OleDbCommand();
             cmd.Connection = con;   //define command, where ID in table = input, change values to input values
-            cmd.CommandText = "UPDATE Permits SET Vehicle_Model_1='" + model1 + "',Registration_1='" + reg1 + "',Vehicle_Model_2='" + model2 + "',Registration_2='" + reg2 + "',Vehicle_Model_3='" + model3 + "',Registration_3='" + reg3 + "',Apartment='" + apnum + "' WHERE Student_ID=" + ID;
+            cmd.CommandText = "UPDATE Permits SET Vehicle_Model_1='" + model1 + "',Registration_1='" + reg1 + "',Vehicle_Model_2='" + model2 + "',Registration_2='" + reg2 + "',Vehicle_Model_3='" + model3 + "',Registration_3='" + reg3 + "',Apartment='" + apnum + "',Expires='" + expire + "' WHERE Student_ID=" + ID;
             con.Open(); //open connection 
             int num = cmd.ExecuteNonQuery();  //execute query and return number of rows affected
             con.Close();    //close connection 
@@ -166,35 +168,37 @@ namespace ConsoleApplication_Database
             Console.WriteLine(count + " permits currently issued");
         }
 
-        public static int FeesCalculation(OleDbCommand command, String start, String end)
+        public static int FeesCalculation()
         {
-            //create DateTime object for expiration date
-            DateTime expire;
-            String validUntil;
-            DateTime valUntil;
+
+            con = new OleDbConnection(ConStr);  //new connection object with connection string 
+            cmd = new OleDbCommand();   //new command object 
+            cmd.Connection = con;   //assigns connection to command 
+            //initialise fees 
             int fees = 100;
             int totalFees = 0;
-            //parse the start and end taken in, and assign to start/endOfMonth
-            startOfMonth = DateTime.Parse(start);
-            endOfMonth = DateTime.Parse(end);
-
-            command.CommandText = "SELECT * FROM Students";
-            command.CommandType = CommandType.Text;
-            OleDbDataReader reader = command.ExecuteReader();
+            cmd.CommandText = "SELECT * FROM Permits";
+            con.Open(); //open connection 
+            reader = cmd.ExecuteReader();
             while (reader.Read())
             {
-                //store reader valid until into validUntil variable
-                validUntil = reader["Valid_Until"].ToString();
-                valUntil = DateTime.Parse(validUntil);
-                if (valUntil > DateTime.Now)
+                //store expiration date 
+                DateTime expire = Convert.ToDateTime(reader["Expires"]);
+                int due = 0;    //fees due on current permit
+              //  String validUntil = reader["Valid_Until"].ToString();
+              //  valUntil = DateTime.Parse(validUntil);
+                if (expire < DateTime.Now)
                 {
                     totalFees = totalFees + fees;
+                    due += fees;
                 }
+                Console.WriteLine(due + "due on permit " + reader[0]);
             }
             Console.WriteLine("Total fees: " + totalFees);
             //close the reader when no longer needed
             reader.Close();
             return totalFees;
+        }
 
 
 
@@ -242,7 +246,7 @@ namespace ConsoleApplication_Database
                 }
                 else if (choice == "5")
                 {
-                    PermitsIssued();
+                    FeesCalculation();
                 }
                 Console.Write("Continue? (y/n) : ");
                 string check = Console.ReadLine();
