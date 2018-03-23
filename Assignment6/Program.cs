@@ -34,6 +34,8 @@ namespace ConsoleApplication_Database
             string owner = Console.ReadLine();
             Console.Write("Apartment : ");
             int apnum = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Expiration : (dd/mm/yyyy)"); //expiration date
+            DateTime expire = DateTime.Parse(Console.ReadLine());
             Console.Write("Vehicle Model 1: ");  //write text to console
             string model1 = Console.ReadLine();  //take console input and assign to model variable 
             Console.Write("Registration1 : ");   //etc
@@ -46,11 +48,10 @@ namespace ConsoleApplication_Database
             string model3 = Console.ReadLine();  //take console input and assign to model variable 
             Console.Write("Registration 3: ");   //etc
             string reg3 = Console.ReadLine();    //etc
-
             con = new OleDbConnection(ConStr);  //new connection object 
             cmd = new OleDbCommand();   //new command object 
             cmd.Connection = con;   //assign connection to command, define command (assigning taken values to new row in table
-            cmd.CommandText = "INSERT INTO Permits (Student_ID,Vehicle_Model_1,Registration_1,Vehicle_Model_2,Registration_2,Vehicle_Model_3,Registration_3,Owner,Apartment) VALUES ('" + ID + "','" + model1 + "','" + reg1 + "','" + model2 + "','" + reg2 + "','" + model3 + "','" + reg3 + "','" + owner + "','" + apnum + "' )";
+            cmd.CommandText = "INSERT INTO Permits (Student_ID,Vehicle_Model_1,Registration_1,Vehicle_Model_2,Registration_2,Vehicle_Model_3,Registration_3,Owner,Apartment,Expires) VALUES ('" + ID + "','" + model1 + "','" + reg1 + "','" + model2 + "','" + reg2 + "','" + model3 + "','" + reg3 + "','" + owner + "','" + apnum + "','" + expire + "'  )";
             con.Open(); // open connection 
             int num = cmd.ExecuteNonQuery();    // perform insertions and return number of rows affected
             con.Close();    //close connection 
@@ -130,21 +131,17 @@ namespace ConsoleApplication_Database
             reader = cmd.ExecuteReader();   //retrieve value from database 
             while (reader.Read())   //while reader is reading 
             {
-                int count = 0;
+                int count = 0;      // counter for each permit to track number of vehicles 
                 for (int i = 1; i <= 3; i++) //loop through vehicles 
                 {
-                    if (reader[i] != DBNull.Value)  //if position is not empty 
+                    if (reader[i] != DBNull.Value)  //if cell exists 
                     {
                         count++;        //add to count
                         if (String.IsNullOrEmpty(Convert.ToString(reader[i])))
-                        {               //if one these entries just contains an empty string
+                        {               //if the cell just contains an empty string or nothing
                             count--;        //subtract from count
                         }
-
                     }
-
-
-
                 }
                 //display contents of the reader ( the id and the count value 
                 Console.WriteLine(reader[0] + " has " + count + " vehicles assigned");
@@ -169,9 +166,40 @@ namespace ConsoleApplication_Database
             Console.WriteLine(count + " permits currently issued");
         }
 
+        public static int FeesCalculation(OleDbCommand command, String start, String end)
+        {
+            //create DateTime object for expiration date
+            DateTime expire;
+            String validUntil;
+            DateTime valUntil;
+            int fees = 100;
+            int totalFees = 0;
+            //parse the start and end taken in, and assign to start/endOfMonth
+            startOfMonth = DateTime.Parse(start);
+            endOfMonth = DateTime.Parse(end);
+
+            command.CommandText = "SELECT * FROM Students";
+            command.CommandType = CommandType.Text;
+            OleDbDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                //store reader valid until into validUntil variable
+                validUntil = reader["Valid_Until"].ToString();
+                valUntil = DateTime.Parse(validUntil);
+                if (valUntil > DateTime.Now)
+                {
+                    totalFees = totalFees + fees;
+                }
+            }
+            Console.WriteLine("Total fees: " + totalFees);
+            //close the reader when no longer needed
+            reader.Close();
+            return totalFees;
 
 
-        static void Main(string[] args)
+
+
+            static void Main(string[] args)
         {
 
             while (true)    //run until there is a break 
@@ -214,7 +242,7 @@ namespace ConsoleApplication_Database
                 }
                 else if (choice == "5")
                 {
-                    UniqueVehicles();
+                    PermitsIssued();
                 }
                 Console.Write("Continue? (y/n) : ");
                 string check = Console.ReadLine();
