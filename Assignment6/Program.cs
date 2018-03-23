@@ -8,7 +8,7 @@ namespace ConsoleApplication_Database
         static OleDbConnection con; //static connection object 
         static OleDbCommand cmd;    //static command object 
         static OleDbDataReader reader;  //static reader object 
-        static String ConStr = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\Christopher\Documents\College\NET\Project\ParkingPermits.accdb; Persist Security Info=False;";
+        static String ConStr = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\Chris\Documents\College\NET\Project\ParkingPermits.accdb; Persist Security Info=False;";
         //connection string for database
 
         public static void GetPermit()  //method to display all permits
@@ -30,6 +30,10 @@ namespace ConsoleApplication_Database
         {
             Console.Write("Student ID : "); //write this text to console 
             int ID = Convert.ToInt32(Console.ReadLine());   //take console input and convert to int variable ID 
+            Console.Write("Owner : ");
+            string owner = Console.ReadLine();
+            Console.Write("Apartment : ");
+            int apnum = Convert.ToInt32(Console.ReadLine());
             Console.Write("Vehicle Model 1: ");  //write text to console
             string model1 = Console.ReadLine();  //take console input and assign to model variable 
             Console.Write("Registration1 : ");   //etc
@@ -42,10 +46,7 @@ namespace ConsoleApplication_Database
             string model3 = Console.ReadLine();  //take console input and assign to model variable 
             Console.Write("Registration 3: ");   //etc
             string reg3 = Console.ReadLine();    //etc
-            Console.Write("Owner : ");
-            string owner = Console.ReadLine();
-            Console.Write("Apartment : ");
-            int apnum = Convert.ToInt32(Console.ReadLine());
+
             con = new OleDbConnection(ConStr);  //new connection object 
             cmd = new OleDbCommand();   //new command object 
             cmd.Connection = con;   //assign connection to command, define command (assigning taken values to new row in table
@@ -67,6 +68,8 @@ namespace ConsoleApplication_Database
         {
             Console.Write("Student ID : "); //write to console etc 
             int ID = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Apartment : ");
+            int apnum = Convert.ToInt32(Console.ReadLine());
             Console.Write("Vehicle Model 1: ");
             string model1 = Console.ReadLine();
             Console.Write("Registration 1: ");
@@ -79,8 +82,6 @@ namespace ConsoleApplication_Database
             string model3 = Console.ReadLine();
             Console.Write("Registration 3: ");
             string reg3 = Console.ReadLine();
-            Console.Write("Apartment : ");
-            int apnum = Convert.ToInt32(Console.ReadLine());
             con = new OleDbConnection(ConStr);  //create stuff same as before
             cmd = new OleDbCommand();
             cmd.Connection = con;   //define command, where ID in table = input, change values to input values
@@ -132,7 +133,7 @@ namespace ConsoleApplication_Database
                 int count = 0;
                 for (int i = 1; i <= 3; i++) //loop through vehicles 
                 {
-                    if (reader[i] != null)  //if position is not empty 
+                    if (reader[i] != DBNull.Value)  //if position is not empty 
                     {
                         count++;        //add to count
                     }
