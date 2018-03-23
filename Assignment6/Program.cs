@@ -128,7 +128,9 @@ namespace ConsoleApplication_Database
             con.Open(); //open connection 
             reader = cmd.ExecuteReader();   //retrieve value from database 
             while (reader.Read())   //while reader is reading 
-            {   //display contents of the reader (values in database 
+            {
+                
+                //display contents of the reader (values in database 
                 Console.WriteLine(reader[0] + "/" + reader[1] + "/" + reader[2]);
             }
             con.Close();    //close connection 
