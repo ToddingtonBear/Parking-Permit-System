@@ -124,14 +124,22 @@ namespace ConsoleApplication_Database
             con = new OleDbConnection(ConStr);  //new connection object with connection string 
             cmd = new OleDbCommand();   //new command object 
             cmd.Connection = con;   //assigns connection to command 
-            cmd.CommandText = "SELECT Vehicle_Model_1, Vehicle_Model_2, Vehicle_Model_3 FROM Permits";  //defines what command does
+            cmd.CommandText = "SELECT Student_ID, Vehicle_Model_1, Vehicle_Model_2, Vehicle_Model_3 FROM Permits";  //defines what command does
             con.Open(); //open connection 
             reader = cmd.ExecuteReader();   //retrieve value from database 
             while (reader.Read())   //while reader is reading 
             {
-                
-                //display contents of the reader (values in database 
-                Console.WriteLine(reader[0] + "/" + reader[1] + "/" + reader[2]);
+                int count = 0;
+                for (int i = 1; i <= 3; i++) //loop through vehicles 
+                {
+                    if (reader[i] != null)  //if position is not empty 
+                    {
+                        count++;        //add to count
+                    }
+
+                }
+                //display contents of the reader ( the id and the count value 
+                Console.WriteLine(reader[0] + " has " + count + " vehicles assigned");
             }
             con.Close();    //close connection 
         }
@@ -182,7 +190,6 @@ namespace ConsoleApplication_Database
                 else if (choice == "5")
                 {
                     UniqueVehicles();
-
                 }
                 Console.Write("Continue? (y/n) : ");
                 string check = Console.ReadLine();
