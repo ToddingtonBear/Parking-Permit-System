@@ -152,6 +152,23 @@ namespace ConsoleApplication_Database
             con.Close();    //close connection 
         }
 
+        public static void PermitsIssued()
+        {
+            int count = 0;  // counter to track how many rows in table (how many permits)
+            con = new OleDbConnection(ConStr);  //new connection object with connection string 
+            cmd = new OleDbCommand();   //new command object 
+            cmd.Connection = con;   //assigns connection to command 
+            cmd.CommandText = "SELECT Student_ID FROM Permits";  //defines what command does
+            con.Open(); //open connection 
+            reader = cmd.ExecuteReader();   //retrieve value from database 
+            while (reader.Read())   //while reader is reading 
+            {   //display contents of the reader (values in database 
+                count++;
+            }
+            con.Close();    //close connection 
+            Console.WriteLine(count + " permits currently issued");
+        }
+
 
 
         static void Main(string[] args)
