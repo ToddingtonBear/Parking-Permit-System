@@ -170,7 +170,6 @@ namespace ConsoleApplication_Database
 
         public static int FeesCalculation()
         {
-
             con = new OleDbConnection(ConStr);  //new connection object with connection string 
             cmd = new OleDbCommand();   //new command object 
             cmd.Connection = con;   //assigns connection to command 
@@ -185,12 +184,10 @@ namespace ConsoleApplication_Database
                 //store expiration date 
                 DateTime expire = Convert.ToDateTime(reader["Expires"]);
                 int due = 0;    //fees due on current permit
-              //  String validUntil = reader["Valid_Until"].ToString();
-              //  valUntil = DateTime.Parse(validUntil);
-                if (expire < DateTime.Now)
+                if (expire < DateTime.Now)  //if current date later than expiry 
                 {
-                    totalFees = totalFees + fees;
-                    due += fees;
+                    totalFees = totalFees + fees;   //add to total fees
+                    due += fees;                    //add to current permit fees 
                 }
                 Console.WriteLine(due + "due on permit " + reader[0]);
             }
@@ -205,7 +202,6 @@ namespace ConsoleApplication_Database
 
             static void Main(string[] args)
         {
-
             while (true)    //run until there is a break 
             {
                 Console.WriteLine("------------------------------");
@@ -213,7 +209,9 @@ namespace ConsoleApplication_Database
                 Console.WriteLine("2.Insert");
                 Console.WriteLine("3.Update");
                 Console.WriteLine("4.Delete");
-                Console.WriteLine("5.Test");
+                Console.WriteLine("5.Unique vehicles");
+                Console.WriteLine("6.Permits issued");
+                Console.WriteLine("7.Fees");
                 Console.WriteLine("------------------------------");
                 Console.Write("Select : ");
                 string choice = Console.ReadLine(); //read input and check against each case
