@@ -244,6 +244,14 @@ namespace ConsoleApplication_Database
                 }
                 else if (choice == "5")
                 {
+                    UniqueVehicles();
+                }
+                else if (choice == "6")
+                {
+                    PermitsIssued();
+                }
+                else if (choice == "7")
+                {
                     FeesCalculation();
                 }
                 Console.Write("Continue? (y/n) : ");
