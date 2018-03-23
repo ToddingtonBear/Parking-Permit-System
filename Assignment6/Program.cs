@@ -136,7 +136,14 @@ namespace ConsoleApplication_Database
                     if (reader[i] != DBNull.Value)  //if position is not empty 
                     {
                         count++;        //add to count
+                        if (String.IsNullOrEmpty(Convert.ToString(reader[i])))
+                        {               //if one these entries just contains an empty string
+                            count--;        //subtract from count
+                        }
+
                     }
+
+
 
                 }
                 //display contents of the reader ( the id and the count value 
