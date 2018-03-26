@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Data.OleDb;
+using NUnit.Framework;
 
 namespace ConsoleApplication_Database
 {
-    class Program
+    class Permits
     {
         static OleDbConnection con; //static connection object 
         static OleDbCommand cmd;    //static command object 
