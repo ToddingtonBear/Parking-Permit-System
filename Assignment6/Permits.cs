@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace ConsoleApplication_Database
 {
-    class Permits
+    public class Permits
     {
         static OleDbConnection con; //static connection object 
         static OleDbCommand cmd;    //static command object 
@@ -124,7 +124,7 @@ namespace ConsoleApplication_Database
             }
         }
 
-        public static void UniqueVehicles()
+        public static int UniqueVehicles()
         {
             con = new OleDbConnection(ConStr);  //new connection object with connection string 
             cmd = new OleDbCommand();   //new command object 
@@ -132,6 +132,7 @@ namespace ConsoleApplication_Database
             cmd.CommandText = "SELECT Student_ID, Vehicle_Model_1, Vehicle_Model_2, Vehicle_Model_3 FROM Permits";  //defines what command does
             con.Open(); //open connection 
             reader = cmd.ExecuteReader();   //retrieve value from database 
+            int totalcount = 0;
             while (reader.Read())   //while reader is reading 
             {
                 int count = 0;      // counter for each permit to track number of vehicles 
@@ -140,9 +141,11 @@ namespace ConsoleApplication_Database
                     if (reader[i] != DBNull.Value)  //if cell exists 
                     {
                         count++;        //add to count
+                        totalcount++;
                         if (String.IsNullOrEmpty(Convert.ToString(reader[i])))
                         {               //if the cell just contains an empty string or nothing
                             count--;        //subtract from count
+                            totalcount--;
                         }
                     }
                 }
@@ -150,9 +153,10 @@ namespace ConsoleApplication_Database
                 Console.WriteLine(reader[0] + " has " + count + " vehicles assigned");
             }
             con.Close();    //close connection 
+            return totalcount;
         }
 
-        public static void PermitsIssued()
+        public static int PermitsIssued()
         {
             int count = 0;  // counter to track how many rows in table (how many permits)
             con = new OleDbConnection(ConStr);  //new connection object with connection string 
@@ -167,6 +171,7 @@ namespace ConsoleApplication_Database
             }
             con.Close();    //close connection 
             Console.WriteLine(count + " permits currently issued");
+            return count;
         }
 
         public static int FeesCalculation()
