@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Data.OleDb;
-using NUnit.Framework;
 
 namespace ConsoleApplication_Database
 {
     public class Permits
     {
-        static OleDbConnection con; //static connection object 
+        static OleDbConnection con; //static connection object
         static OleDbCommand cmd;    //static command object 
         static OleDbDataReader reader;  //static reader object 
         static String ConStr = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\Chris\Documents\College\NET\Project\ParkingPermits.accdb; Persist Security Info=False;";
